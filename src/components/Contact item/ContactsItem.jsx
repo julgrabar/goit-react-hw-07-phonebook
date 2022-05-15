@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+// import { deleteContact } from 'redux/contactsSlice';
+import { deleteContactRequest } from 'redux/contactsOperations';
 
 export const ContactsItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const ContactsItem = ({ id, name, number }) => {
       <button
         type="button"
         className="delete-btn"
-        onClick={() => dispatch(deleteContact(id))}
+        onClick={() => dispatch(deleteContactRequest(id))}
       >
         <span className="material-icons">delete</span>
       </button>

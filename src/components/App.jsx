@@ -1,16 +1,23 @@
-import { nanoid } from 'nanoid';
 import { ContactForm } from './Contact form/ContactForm';
 import { ContactList } from './Contact list/ContactList';
 import { Filter } from './Filter/Filter';
 import { Global } from './Global';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { filterContacts } from 'redux/contactsSlice';
+import { useEffect } from 'react';
+import {
+  addContactRequest,
+  fetchContactsNames,
+} from 'redux/contactsOperations';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts.items);
   const filterValue = useSelector(state => state.contacts.filter);
+  const isLoading = useSelector(state => state.isLoading);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContactsNames());
+  }, [dispatch]);
 
   const addNewContact = ({ name, number }) => {
     if (
@@ -21,16 +28,11 @@ export const App = () => {
     }
 
     const contact = {
-      id: nanoid(8),
       name,
       number,
     };
 
-    dispatch(addContact(contact));
-  };
-
-  const onFilterInput = e => {
-    dispatch(filterContacts(e.currentTarget.value));
+    dispatch(addContactRequest(contact));
   };
 
   const findPhones = () => {
@@ -49,8 +51,14 @@ export const App = () => {
       <ContactForm onSubmit={addNewContact} />
 
       <h2>Contacts</h2>
-      <Filter onChange={onFilterInput} text={filterValue} />
-      <ContactList contacts={findPhones()} />
+
+      {!isLoading && (
+        <>
+          <Filter />
+          <ContactList contacts={findPhones()} />
+        </>
+      )}
+      {isLoading && <p>Loading...</p>}
     </div>
   );
 };
