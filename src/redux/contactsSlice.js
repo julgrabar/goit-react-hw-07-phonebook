@@ -11,18 +11,14 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: init,
   reducers: {
-    addContact({items}, action) {
-      items.push(action.payload)
-    },
     filterContacts(state, action){
         state.filter=action.payload;
     }
   },
   extraReducers: {
-    [fetchContactsNames.fulfilled]: (state, {payload})=>({...state, items: [...payload]}), 
+    [fetchContactsNames.fulfilled]: (state, {payload})=>({...state, items: [...payload], isLoading: false}), 
     [fetchContactsNames.pending]: (state)=>({...state, isLoading: true}),
-    [deleteContactRequest.fulfilled]: (state, {payload})=>({...state ,items: state.items.filter(item=>item.id!==payload)}), 
-    // [deleteContactRequest.pending]: (state)=>({...state, isLoading: true})
+    [deleteContactRequest.fulfilled]: (state, {payload})=>({...state ,items: state.items.filter(item=>item.id!==payload)}),
     [addContactRequest.fulfilled]: (state, {payload})=>({...state, items: [...state.items, payload]}), 
   },
 });
@@ -31,4 +27,4 @@ export const contactsSlice = createSlice({
 export const contactsReducer = contactsSlice.reducer;
 
 
-export const { addContact, deleteContact, filterContacts } = contactsSlice.actions;
+export const { filterContacts } = contactsSlice.actions;

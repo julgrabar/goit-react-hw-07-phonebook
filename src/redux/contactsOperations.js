@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchContacts, deleteContact, addContact } from "services/api-service";
 
+
 export const fetchContactsNames = createAsyncThunk("contacts/fetchContacts", 
 async (_, {rejectWithValue})=>{
     try{
@@ -15,7 +16,7 @@ async (_, {rejectWithValue})=>{
 export const deleteContactRequest = createAsyncThunk("contacts/deleteContact",
 async (id, {rejectWithValue})=>{
     try{
-        const response = await deleteContact(id)
+        const response = await deleteContact(id);
         return response.id;
     }catch(error){
         return rejectWithValue(error)

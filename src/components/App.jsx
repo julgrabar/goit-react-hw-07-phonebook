@@ -44,7 +44,7 @@ export const App = () => {
   };
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <Global />
 
       <h1>Phonebook</h1>
